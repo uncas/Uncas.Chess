@@ -1,7 +1,7 @@
 using System;
 using ChessDotNet;
 
-namespace Uncas.Chess
+namespace Uncas.Chess.Engines
 {
     /// <summary>
     ///     1st game by this engine against itself: https://lichess.org/MOn0XuZC : 280 moves before white checkmates black
@@ -9,11 +9,18 @@ namespace Uncas.Chess
     /// </summary>
     public class RandomChessEngine : IChessEngine
     {
+        private readonly Random _random;
+
+        public RandomChessEngine()
+        {
+            _random = new Random();
+        }
+
         public Move SuggestMove(ChessGame game)
         {
             var playerToMove = game.WhoseTurn;
             var moves = game.GetValidMoves(playerToMove);
-            var moveIndex = new Random().Next(moves.Count);
+            var moveIndex = _random.Next(moves.Count);
             return moves[moveIndex];
         }
     }
