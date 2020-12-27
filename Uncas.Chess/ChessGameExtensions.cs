@@ -4,7 +4,7 @@ namespace Uncas.Chess
 {
     public static class ChessGameExtensions
     {
-        public static bool IsOver(this ChessGame game, int maxMoves = 1000)
+        public static bool IsOver(this ChessGame game, int maxMoves = 250)
         {
             var playerToMove = game.WhoseTurn;
             return game.IsCheckmated(playerToMove) ||

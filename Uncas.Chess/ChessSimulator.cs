@@ -1,30 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ChessDotNet;
+﻿using ChessDotNet;
 using Microsoft.Extensions.Logging;
 
 namespace Uncas.Chess
 {
     public class ChessSimulator
     {
-        private readonly IList<IChessEngine> _engines;
         private readonly ILogger _logger;
-        private readonly Random _random;
 
-        public ChessSimulator(
-            IEnumerable<IChessEngine> engines,
-            ILogger<ChessSimulator> logger)
+        public ChessSimulator(ILogger<ChessSimulator> logger)
         {
-            _engines = engines.ToList();
             _logger = logger;
-            _random = new Random();
         }
 
-        public void SimulateGame()
+        public GameResult SimulateGame(IChessEngine whiteEngine, IChessEngine blackEngine)
         {
-            var whiteEngine = _engines[_random.Next(_engines.Count)];
-            var blackEngine = _engines.Except(new[] {whiteEngine}).ElementAt(_random.Next(_engines.Count - 1));
             _logger.LogInformation("White: {WhiteEngine}", whiteEngine.GetType().Name);
             _logger.LogInformation("Black: {BlackEngine}", blackEngine.GetType().Name);
             var game = new ChessGame();
@@ -38,6 +27,17 @@ namespace Uncas.Chess
             }
 
             _logger.LogInformation(game.GetPGN());
+            if (game.IsWinner(Player.White))
+            {
+                return GameResult.WhiteWins;
+            }
+
+            if (game.IsWinner(Player.Black))
+            {
+                return GameResult.BlackWins;
+            }
+
+            return GameResult.Draw;
         }
     }
 }
