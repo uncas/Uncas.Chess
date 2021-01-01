@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Uncas.Chess.ConsoleApp\Uncas.Chess.ConsoleApp.csproj" />
       <ProjectReference Include="..\Uncas.Chess\Uncas.Chess.csproj" />
     </ItemGroup>
 
